@@ -1,15 +1,15 @@
-
+<!doctype html>
 <html lang="en"> 
- <head> 
+<head> 
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>Authentication</title> <!-- Firebase Authentication --> 
+  <title>Authentication</title> 
+
+  <!-- Firebase Authentication --> 
   <script type="module">
-        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAkef4YRIeJSMpmL4Mm-Y5TOMG_sy0KVc4",
             authDomain: "chat-45809.firebaseapp.com",
@@ -21,7 +21,6 @@
             measurementId: "G-N4TZLZPGCZ"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
@@ -51,7 +50,7 @@
                         await signInWithEmailAndPassword(auth, email, password);
                         status.style.color = "green";
                         status.textContent = "Login Successful!";
-                        setTimeout(() => window.location.href = "chat(1).html", 2000); // Redirect to chat page
+                        setTimeout(fetchChatFile, 2000); // Fetch chat(1).html after login
                     } else {
                         await createUserWithEmailAndPassword(auth, email, password);
                         status.style.color = "green";
@@ -82,7 +81,29 @@
                 }
             });
         });
-    </script> <!-- CSS Styling --> 
+
+        // Fetch the GitHub file after login
+        async function fetchChatFile() {
+            const fileUrl = "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO/main/chat(1).html"; // Update with your repo URL
+
+            try {
+                const response = await fetch(fileUrl);
+                if (!response.ok) throw new Error("File not found");
+
+                const content = await response.text();
+                
+                // Load the content inside a new page
+                const newWindow = window.open("", "_blank");
+                newWindow.document.write(content);
+                newWindow.document.close();
+
+            } catch (error) {
+                console.error("Error fetching file:", error);
+            }
+        }
+  </script> 
+
+  <!-- CSS Styling --> 
   <style>
         body {
             display: flex;
@@ -126,15 +147,16 @@
             cursor: pointer;
         }
     </style> 
- </head> 
- <body> 
+</head> 
+<body> 
   <div class="container"> 
    <h2 id="form-title">Login</h2> 
    <input type="email" id="email" placeholder="Enter Email"> 
-   <input type="password" id="password" placeholder="Enter Password"> <button id="auth-button">Login</button> 
+   <input type="password" id="password" placeholder="Enter Password"> 
+   <button id="auth-button">Login</button> 
    <p id="toggle-form">Don't have an account? <a href="#">Sign Up</a></p> 
    <p><a href="#" id="forgot-password">Forgot Password?</a></p> 
    <p id="status" style="color: red;"></p> 
   </div> 
- </body>
+</body>
 </html>
