@@ -51,7 +51,7 @@
                     status.style.color = "green";
                     status.textContent = "Login Successful!";
                     setTimeout(() => {
-                        window.location.href = "chat(1).html"; // Redirect after login
+                        window.location.href = "https://github.com/Aniket27717/-/blob/main/chat%20(1).html"; // Redirect to GitHub file
                     }, 2000);
                 } else {
                     await createUserWithEmailAndPassword(auth, email, password);
